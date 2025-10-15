@@ -29,11 +29,7 @@ $\mathrm{SOC}_{k+1}=\mathrm{SOC}_k+\frac{\Delta t}{E}\!\left(\eta_c P^{\mathrm{c
 
 ## Controlled System with disturbances
 
-$\mathrm{SOC}_{k+1}=\mathrm{SOC}_k+\frac{\Delta t}{E}\!\left(\eta_c P^{\mathrm{ch}}_k-\frac{1}{\eta_d}P^{\mathrm{dis}}_k\right)$
-
-<br>
-
-$\mathrm{SOC}_{k+1}=\mathrm{SOC}_k+\frac{\Delta t}{E}\!\left(\eta_c P^{\mathrm{ch}}_k-\frac{1}{\eta_d}P^{\mathrm{dis}}_k\right) - \frac{\Delta t}{E} P_{\mathrm{dist},k} + w^{\mathrm{soc}}_k$ 
+$\mathrm{SOC}_{k+1}=\mathrm{SOC}_k+\frac{\Delta t}{E}\!\left(\eta_c P^{\mathrm{ch}}_k-\frac{1}{\eta_d}P^{\mathrm{dis}}_k\right)-\frac{\Delta t}{E}P_{\mathrm{dist},k}+w^{\mathrm{soc}}_k$ 
 
 - Parasitic load $P_{\text{dist}}[k]$ (kW) is injected only in the plant update and MPC doesn’t see this in its prediction model, so tracking degrades
   <br>Positive $P_{\text{dist}}$ drains the battery (e.g., unknown auxiliary load).
@@ -55,15 +51,7 @@ Given:
 
 the cost is
 
-$ \begin{aligned}
-J
-&= \underbrace{w_{\mathrm{soc,stage}} \sum_{k=0}^{N-1}\!\big(\mathrm{SOC}_k - \mathrm{SOC}^{\mathrm{ref}}_k\big)^2}_{\mathrm{track SoC over the horizon}}
-\;+\; \underbrace{w_{\mathrm{soc,term}} \big(\mathrm{SOC}_N - \mathrm{SOC}^{\mathrm{ref}}_N\big)^2}_{\mathrm{terminal SoC target}}
-\quad+\; \underbrace{w_{\mathrm{power}} \sum_{k=0}^{N-1}\!\big(P^{\mathrm{ch}}_k + P^{\mathrm{dis}}_k\big)^2}_{\mathrm{keep total charge/discharge flow small}}\\[4pt]
-&\quad+\; \underbrace{w_{\mathrm{slew}} \Big(P^{\mathrm{net}}_0-P_{\mathrm{prev}}\Big)^2
-\;+\; w_{\mathrm{slew}} \sum_{k=1}^{N-1}\!\big(P^{\mathrm{net}}_k-P^{\mathrm{net}}_{k-1}\big)^2}_{\mathrm{penalize input rate-of-change (slew)}}
-\quad+\; \underbrace{w_{\mathrm{anti}} \sum_{k=0}^{N-1}\!\big(P^{\mathrm{ch}}_k P^{\mathrm{dis}}_k\big)^2}_{\mathrm{discourage simultaneous charge and discharge (smooth)}}
-\end{aligned} $
+$\begin{aligned}J&=\underbrace{w_{\mathrm{soc,stage}}\sum_{k=0}^{N-1}\!\big(\mathrm{SOC}_k-\mathrm{SOC}^{\mathrm{ref}}_k\big)^2}_{\mathrm{track SoC over the horizon}}\;+\;\underbrace{w_{\mathrm{soc,term}}\big(\mathrm{SOC}_N-\mathrm{SOC}^{\mathrm{ref}}_N\big)^2}_{\mathrm{terminal SoC target}}\quad+\;\underbrace{w_{\mathrm{power}}\sum_{k=0}^{N-1}\!\big(P^{\mathrm{ch}}_k+P^{\mathrm{dis}}_k\big)^2}_{\mathrm{keep total charge/discharge flow small}}\\[4pt]&\quad+\;\underbrace{w_{\mathrm{slew}}\Big(P^{\mathrm{net}}_0-P_{\mathrm{prev}}\Big)^2\;+\;w_{\mathrm{slew}}\sum_{k=1}^{N-1}\!\big(P^{\mathrm{net}}_k-P^{\mathrm{net}}_{k-1}\big)^2}_{\mathrm{penalize input rate-of-change(slew)}}\quad+\;\underbrace{w_{\mathrm{anti}}\sum_{k=0}^{N-1}\!\big(P^{\mathrm{ch}}_kP^{\mathrm{dis}}_k\big)^2}_{\mathrm{discourage simultaneous charge and discharge (smooth)}}\end{aligned}$
 
 **Term-by-term:**
 - **Stage tracking** $w_{\text{soc,stage}}$: keeps $\text{SOC}_k$ close to $\text{SOC}^{\text{ref}}_k$ at each step.
@@ -77,7 +65,7 @@ J
 
 ## Tube-based MPC
 
-In the tube formulation you optimize a nominal problem with a charge-positive input $u_k = P^{ch}_k - P^{dis}_k$ and a simplified linear model $x_{k+1}=x_k +b u_k$. You then apply the ancillary feedback $u=u^* + K(x^{true} - x^*)$ where $e= x - x^*$ is the error.
+In the tube formulation you optimize a nominal problem with a charge-positive input $u_k=P^{ch}_k-P^{dis}_k$ and a simplified linear model $x_{k+1}=x_k+bu_k$. You then apply the ancillary feedback $u=u^*+K(x^{true}-x^*)$ where $e=x-x^*$ is the error.
 
 * Optimize a _nominal_ trajectory $(x^\star, u^\star)$ on **tightened constraints** and apply $u = u^\star + K\,(x^{\text{true}} - x^\star)$ with a fixed stabilizing gain $K$ (ancillary feedback).
 
