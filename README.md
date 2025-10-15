@@ -29,7 +29,7 @@ $\mathrm{SOC}_{k+1}=\mathrm{SOC}_k+\frac{\Delta t}{E}\!\left(\eta_c P^{\mathrm{c
 
 ## Controlled System with disturbances
 
-$\mathrm{SOC}_{k+1} = \mathrm{SOC}_k + \frac{\Delta t}{E}\big(\eta_c\,P^{\mathrm{ch}}_k - \frac{1}{\eta_d}\,P^{\mathrm{dis}}_k\big) - \frac{\Delta t}{E} P_{\mathrm{dist},k} + w^{\mathrm{soc}}_k$ 
+$ \mathrm{SOC}_{k+1} = \mathrm{SOC}_k + \frac{\Delta t}{E}\big(\eta_c\,P^{\mathrm{ch}}_k - \frac{1}{\eta_d}\,P^{\mathrm{dis}}_k\big) - \frac{\Delta t}{E} P_{\mathrm{dist},k} + w^{\mathrm{soc}}_k $ 
 
 - Parasitic load $P_{\text{dist}}[k]$ (kW) is injected only in the plant update and MPC doesn’t see this in its prediction model, so tracking degrades
   <br>Positive $P_{\text{dist}}$ drains the battery (e.g., unknown auxiliary load).
@@ -51,15 +51,15 @@ Given:
 
 the cost is
 
-$\begin{aligned}
+$ \begin{aligned}
 J
-&= \underbrace{w_{\text{soc,stage}} \sum_{k=0}^{N-1}\!\big(\text{SOC}_k - \text{SOC}^{\text{ref}}_k\big)^2}_{\text{track SoC over the horizon}}
-\;+\; \underbrace{w_{\text{soc,term}} \big(\text{SOC}_N - \text{SOC}^{\text{ref}}_N\big)^2}_{\text{terminal SoC target}}
-\quad+\; \underbrace{w_{\text{power}} \sum_{k=0}^{N-1}\!\big(P^{\text{ch}}_k + P^{\text{dis}}_k\big)^2}_{\text{keep total charge/discharge flow small}}\\[4pt]
-&\quad+\; \underbrace{w_{\text{slew}} \Big(P^{\text{net}}_0-P_{\text{prev}}\Big)^2
-\;+\; w_{\text{slew}} \sum_{k=1}^{N-1}\!\big(P^{\text{net}}_k-P^{\text{net}}_{k-1}\big)^2}_{\text{penalize input rate-of-change (slew)}}
-\quad+\; \underbrace{w_{\text{anti}} \sum_{k=0}^{N-1}\!\big(P^{\text{ch}}_k P^{\text{dis}}_k\big)^2}_{\text{discourage simultaneous charge and discharge (smooth)}}
-\end{aligned}$
+&= \underbrace{w_{\mathrm{soc,stage}} \sum_{k=0}^{N-1}\!\big(\mathrm{SOC}_k - \mathrm{SOC}^{\mathrm{ref}}_k\big)^2}_{\mathrm{track SoC over the horizon}}
+\;+\; \underbrace{w_{\mathrm{soc,term}} \big(\mathrm{SOC}_N - \mathrm{SOC}^{\mathrm{ref}}_N\big)^2}_{\mathrm{terminal SoC target}}
+\quad+\; \underbrace{w_{\mathrm{power}} \sum_{k=0}^{N-1}\!\big(P^{\mathrm{ch}}_k + P^{\mathrm{dis}}_k\big)^2}_{\mathrm{keep total charge/discharge flow small}}\\[4pt]
+&\quad+\; \underbrace{w_{\mathrm{slew}} \Big(P^{\mathrm{net}}_0-P_{\mathrm{prev}}\Big)^2
+\;+\; w_{\mathrm{slew}} \sum_{k=1}^{N-1}\!\big(P^{\mathrm{net}}_k-P^{\mathrm{net}}_{k-1}\big)^2}_{\mathrm{penalize input rate-of-change (slew)}}
+\quad+\; \underbrace{w_{\mathrm{anti}} \sum_{k=0}^{N-1}\!\big(P^{\mathrm{ch}}_k P^{\mathrm{dis}}_k\big)^2}_{\mathrm{discourage simultaneous charge and discharge (smooth)}}
+\end{aligned} $
 
 **Term-by-term:**
 - **Stage tracking** $w_{\text{soc,stage}}$: keeps $\text{SOC}_k$ close to $\text{SOC}^{\text{ref}}_k$ at each step.
