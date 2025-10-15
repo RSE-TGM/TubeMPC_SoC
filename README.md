@@ -29,6 +29,7 @@ $\mathrm{SOC}_{k+1}=\mathrm{SOC}_k+\frac{\Delta t}{E}\!\left(\eta_c P^{\mathrm{c
 
 ## Controlled System with disturbances
 <br>
+
 $\mathrm{SOC}_{k+1}=\mathrm{SOC}_k+\frac{\Delta t}{E}\!\left(\eta_c P^{\mathrm{ch}}_k-\frac{1}{\eta_d}P^{\mathrm{dis}}_k\right) -\frac{\Delta t}{E}P_{\mathrm{dist},k} + w^{\mathrm{soc}}_k$
 
 - Parasitic load $P_{\text{dist}}[k]$ (kW) is injected only in the plant update and MPC doesn’t see this in its prediction model, so tracking degrades
