@@ -27,9 +27,11 @@ $\mathrm{SOC}_{k+1}=\mathrm{SOC}_k+\frac{\Delta t}{E}\!\left(\eta_c P^{\mathrm{c
 * $ P^{\mathrm{dis}}_k$ is the discharge power [kW]
 * $P_k=P_k^{dis}−P_k^{ch}$ is the net power [kW]
 
-## Disturbance Design
-- Parasitic load $P_{\text{dist}}[k]$ (kW) is injected only in the plant update and MPC doesn’t see this in its prediction model, so tracking degrades:  
-  $\text{SOC}_{k+1} = \text{SOC}_k + \frac{\Delta t}{E}\big(\eta_c\,P^{\text{ch}}_k - \frac{1}{\eta_d}\,P^{\text{dis}}_k\big) - \frac{\Delta t}{E} P_{\text{dist},k} + w^{\text{soc}}_k$ 
+## Controlled System with disturbances
+
+$\mathrm{SOC}_{k+1} = \mathrm{SOC}_k + \frac{\Delta t}{E}\big(\eta_c\,P^{\mathrm{ch}}_k - \frac{1}{\eta_d}\,P^{\mathrm{dis}}_k\big) - \frac{\Delta t}{E} P_{\mathrm{dist},k} + w^{\mathrm{soc}}_k$ 
+
+- Parasitic load $P_{\text{dist}}[k]$ (kW) is injected only in the plant update and MPC doesn’t see this in its prediction model, so tracking degrades
   <br>Positive $P_{\text{dist}}$ drains the battery (e.g., unknown auxiliary load).
 
 - Process noise $w^{\text{soc}}_k$ is tiny random drift directly on SoC.
