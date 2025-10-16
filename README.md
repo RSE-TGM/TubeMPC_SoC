@@ -71,7 +71,8 @@ the cost is
 
 ## Tube-based MPC
 
-In the tube formulation you optimize a nominal problem with a charge-positive input $u_k=P^{ch}_k-P^{dis}_k$ and a simplified linear model $x_{k+1}=x_k+bu_k$. You then apply the ancillary feedback $u=u^*+K(x^{true}-x^*)$ where $e=x-x^*$ is the error.
+In the tube formulation you optimize a nominal problem with a charge-positive input $ u_k=P^{ch}_k-P^{dis}_k $ and a simplified linear model $ x_{k+1}=x_k+bu_k $.
+You then apply the ancillary feedback $u=u^*+K(x^{true}-x^*)$ where $e=x-x^*$ is the error.
 
 * Optimize a _nominal_ trajectory $(x^\star, u^\star)$ on **tightened constraints** and apply $u = u^\star + K\,(x^{\text{true}} - x^\star)$ with a fixed stabilizing gain $K$ (ancillary feedback).
 
