@@ -31,7 +31,7 @@ $\mathrm{SOC}_{k+1}=\mathrm{SOC}_k+\frac{\Delta t}{E}\!\left(\eta_c P^{\mathrm{c
 
 <!-- $\mathrm{SOC}_{k+1}=\mathrm{SOC}_k+\frac{\Delta t}{E}\!\left(\eta_c P^{\mathrm{ch}}_k-\frac{1}{\eta_d}P^{\mathrm{dis}}_k\right)-\frac{\Delta t}{E}P_{\mathrm{dist},k}+w^{\mathrm{soc}}_k$ -->
 
-![Alt text](images\model_disturbed.png)
+![Alt text](https://raw.githubusercontent.com/RSE-TGM/TubeMPC_SoC/refs/heads/main/images/model_disturbed.png?token=GHSAT0AAAAAADJEVJ7WQWDAZJKWRWA2O5ZC2HQUBVQ)
 
 
 - Parasitic load $P_{\text{dist}}[k]$ (kW) is injected only in the plant update and MPC doesn’t see this in its prediction model, so tracking degrades
@@ -56,7 +56,7 @@ the cost is
 
 <!-- $\begin{aligned}J&=\underbrace{w_{\mathrm{soc,stage}}\sum_{k=0}^{N-1}\!\big(\mathrm{SOC}_k-\mathrm{SOC}^{\mathrm{ref}}_k\big)^2}_{\mathrm{track SoC over the horizon}}\;+\;\underbrace{w_{\mathrm{soc,term}}\big(\mathrm{SOC}_N-\mathrm{SOC}^{\mathrm{ref}}_N\big)^2}_{\mathrm{terminal SoC target}}\quad+\;\underbrace{w_{\mathrm{power}}\sum_{k=0}^{N-1}\!\big(P^{\mathrm{ch}}_k+P^{\mathrm{dis}}_k\big)^2}_{\mathrm{keep total charge/discharge flow small}}\\[4pt]&\quad+\;\underbrace{w_{\mathrm{slew}}\Big(P^{\mathrm{net}}_0-P_{\mathrm{prev}}\Big)^2\;+\;w_{\mathrm{slew}}\sum_{k=1}^{N-1}\!\big(P^{\mathrm{net}}_k-P^{\mathrm{net}}_{k-1}\big)^2}_{\mathrm{penalize input rate-of-change(slew)}}\quad+\;\underbrace{w_{\mathrm{anti}}\sum_{k=0}^{N-1}\!\big(P^{\mathrm{ch}}_kP^{\mathrm{dis}}_k\big)^2}_{\mathrm{discourage simultaneous charge and discharge (smooth)}}\end{aligned}$ -->
 
-![Alt text](images\cost_function_mpc.png)
+![Alt text](https://raw.githubusercontent.com/RSE-TGM/TubeMPC_SoC/refs/heads/main/images/cost_function_mpc.png?token=GHSAT0AAAAAADJEVJ7XO5GAWH5VYD3RWKJU2HQUBKA)
 
 
 **Term-by-term:**
